@@ -5,7 +5,7 @@ import axios from "../../../axios-order";
 import Spinner from "../../../components/UI/Spinner/Spinner";
 import Input from "../../../components/UI/Input/Input";
 import { connect } from "react-redux";
-import * as orderActions from "../../../store/actions";
+import * as actions from "../../../store/actions";
 import withErrorHandler from "../../../hoc/withErrorHandler/withErrorHandler";
 class ContactData extends Component {
   state = {
@@ -107,9 +107,19 @@ class ContactData extends Component {
     if (rules.maxLength) {
       isValid = value.length <= rules.maxLength && isValid;
     }
+    if (rules.isEmail) {
+      const pattern = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/;
+      isValid = pattern.test(value) && isValid;
+    }
+
+    if (rules.isNumeric) {
+      const pattern = /^\d+$/;
+      isValid = pattern.test(value) && isValid;
+    }
 
     return isValid;
   };
+
   orderHandler = (event) => {
     event.preventDefault();
     const formData = {};
@@ -124,16 +134,8 @@ class ContactData extends Component {
       OrderData: formData,
     };
     this.props.onOrderBurger(order);
-    // axios
-    //   .post("/orders.json", order)
-    //   .then((response) => {
-    //     this.setState({ loading: false });
-    //     this.props.history.push("/");
-    //   })
-    //   .catch((error) => {
-    //     this.setState({ loading: false });
-    //   });
   };
+
   inputChangeHandler = (event, inputIdentifier) => {
     const updatedOrderForm = { ...this.state.orderForm };
     const updatedFormElement = { ...updatedOrderForm[inputIdentifier] };
@@ -143,13 +145,11 @@ class ContactData extends Component {
       updatedFormElement.validation
     );
     updatedFormElement.touched = true;
-    console.log(updatedFormElement);
     updatedOrderForm[inputIdentifier] = updatedFormElement;
     let formIsValid = true;
     for (let inputIdentifier in updatedOrderForm) {
       formIsValid = updatedOrderForm[inputIdentifier].valid && formIsValid;
     }
-    console.log(formIsValid);
     this.setState({ orderForm: updatedOrderForm, formIsValid: formIsValid });
   };
 
@@ -196,7 +196,7 @@ class ContactData extends Component {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onOrderBurger: (order) => dispatch(orderActions.purchaseBurger(order)),
+    onOrderBurger: (orderData) => dispatch(actions.purchaseBurger(orderData)),
   };
 };
 const mapStateToProps = (state) => {

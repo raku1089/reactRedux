@@ -31,31 +31,6 @@ class BurgerBuilder extends Component {
     this.props.onInitIngredients();
   }
 
-  // addIngredientHandler = (type) => {
-  //   const oldCount = this.state.ingredients[type];
-  //   const updatedCount = oldCount + 1;
-  //   const updatedIngredients = { ...this.state.ingredients };
-  //   updatedIngredients[type] = updatedCount;
-  //   const priceAddition = INGREDIENT_PRICES[type];
-  //   const oldPrice = this.state.totalPrice;
-  //   const newPrice = oldPrice + priceAddition;
-  //   this.setState({ totalPrice: newPrice, ingredients: updatedIngredients });
-  //   this.updatePurchaseState(updatedIngredients);
-  // };
-  // removeIngredientHandler = (type) => {
-  //   const oldCouunt = this.state.ingredients[type];
-  //   if (oldCouunt <= 0) {
-  //     return;
-  //   }
-  //   const updatedCount = oldCouunt - 1;
-  //   const updatedIngredients = { ...this.state.ingredients };
-  //   updatedIngredients[type] = updatedCount;
-  //   const priceDeduction = INGREDIENT_PRICES[type];
-  //   const oldPrice = this.state.totalPrice;
-  //   const newPrice = oldPrice - priceDeduction;
-  //   this.setState({ totalPrice: newPrice, ingredients: updatedIngredients });
-  //   this.updatePurchaseState(updatedIngredients);
-  // };
   purchaseHandler = () => {
     this.setState({ purchasing: true });
   };
@@ -63,44 +38,8 @@ class BurgerBuilder extends Component {
     this.setState({ purchasing: false });
   };
   purchaseContinueHandler = () => {
-    // this.setState({ loading: true });
-    // const order = {
-    //   ingredients: this.state.ingredients,
-    //   price: this.state.totalPrice,
-    //   customer: {
-    //     name: "Rakesh",
-    //     address: {
-    //       city: "Bangalore",
-    //       zip: "560103",
-    //       country: "India",
-    //     },
-    //     email: "test@gmail.com",
-    //     deliveryMethod: "fastest",
-    //   },
-    // };
-    // axios
-    //   .post("/orders.json", order)
-    //   .then((response) => {
-    //     this.setState({ loading: false, purchasing: false });
-    //   })
-    //   .catch((error) => {
-    //     this.setState({ loading: false, purchasing: false });
-    //   });
-    // const queryParams = [];
-    // for (let i in this.state.ingredients) {
-    //   queryParams.push(
-    //     encodeURIComponent(i) +
-    //       "=" +
-    //       encodeURIComponent(this.state.ingredients[i])
-    //   );
-    // }
-    // queryParams.push("price=" + this.state.totalPrice);
-    // const queryString = queryParams.join("&");
-    // this.props.history.push({
-    //   pathname: "/checkout",
-    //   search: "?" + queryString,
-    // });
     this.props.onInitPurchase();
+    console.log("calling... on clic");
     this.props.history.push("/checkout");
   };
   render() {
@@ -111,6 +50,12 @@ class BurgerBuilder extends Component {
       disabledInfo[key] = disabledInfo[key] <= 0;
     }
     let orderSummary = null;
+
+    let burger = this.props.error ? (
+      <p>Failed to load ingredients</p>
+    ) : (
+      <Spinner />
+    );
     if (this.props.ings) {
       orderSummary = (
         <OrderSummary
@@ -120,14 +65,6 @@ class BurgerBuilder extends Component {
           price={this.props.price}
         />
       );
-    }
-
-    let burger = this.props.error ? (
-      <p>Failed to load ingredients</p>
-    ) : (
-      <Spinner />
-    );
-    if (this.props.ings) {
       burger = (
         <Aux>
           <Burger ingredients={this.props.ings} />
