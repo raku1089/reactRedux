@@ -39,7 +39,6 @@ class BurgerBuilder extends Component {
   };
   purchaseContinueHandler = () => {
     this.props.onInitPurchase();
-    console.log("calling... on clic");
     this.props.history.push("/checkout");
   };
   render() {
@@ -93,18 +92,6 @@ class BurgerBuilder extends Component {
     );
   }
 }
-
-// const mapDispatchToProps = (dispatch) => {
-//   return {
-//     onIngredientAdded: (ingName) =>
-//       dispatch({ type: actionTypes.ADD_INGREDIENT, ingredientName: ingName }),
-//     onIngredientRemove: (igName) =>
-//       dispatch({ type: actionTypes.REMOVE_INGREDIENT, ingredientName: igName }),
-//   };
-// };
-// const mapStateToProps = (state) => {
-//   return { ings: state.ingredients, price: state.totalPrice };
-// };
 
 const mapDispatchToProps = (dispatch) => {
   return {

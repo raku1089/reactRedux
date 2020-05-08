@@ -13,7 +13,6 @@ class Checkout extends Component {
     this.props.history.goBack();
   };
   render() {
-    console.log("..checkout");
     let summary = <Redirect to="/" />;
     if (this.props.ings) {
       const purchasedRedirect = this.props.purchased ? (
