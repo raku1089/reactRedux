@@ -4,6 +4,7 @@ const initialState = {
   ingredients: null,
   totalPrice: 4,
   error: false,
+  building: false,
 };
 
 const INGREDIENT_PRICES = {
@@ -22,6 +23,7 @@ const burgerBuilder = (state = initialState, action) => {
           ...state.ingredients,
           [action.ingredientName]: state.ingredients[action.ingredientName] + 1,
         },
+        building: true,
         totalPrice: state.totalPrice + INGREDIENT_PRICES[action.ingredientName],
       };
 
@@ -45,6 +47,7 @@ const burgerBuilder = (state = initialState, action) => {
         },
         totalPrice: 4,
         error: false,
+        building: false,
       };
     case actionTypes.FETCH_INGREDIENTS_FAILED:
       return {
