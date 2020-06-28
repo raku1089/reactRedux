@@ -1,5 +1,6 @@
 HEAD
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Application is hoisted using firebase https://react-burger-69519.firebaseapp.com/
+Default
 
 ## Available Scripts
 
